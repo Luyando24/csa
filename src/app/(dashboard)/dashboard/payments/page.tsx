@@ -10,6 +10,8 @@ import { createClient } from "@/lib/supabase/client"
 
 import { User } from "@supabase/supabase-js"
 
+export const dynamic = 'force-dynamic'
+
 export default function PaymentsPage() {
   const [amount, setAmount] = useState(100) // Default application fee
   const [user, setUser] = useState<User | null>(null)
