@@ -90,8 +90,8 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-64">
-        <div className="p-8">
+      <main className="flex-1 md:ml-64 mb-16 md:mb-0">
+        <div className="p-4 md:p-8">
           {children}
         </div>
       </main>

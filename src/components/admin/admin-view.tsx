@@ -104,23 +104,23 @@ export function AdminView({ applications: initialApps, totalApps, pendingApps, a
       {activeTab === "applications" && (
         <Card>
           <CardHeader>
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col gap-4">
               <div>
                 <CardTitle>Manage Applications</CardTitle>
                 <CardDescription>View and manage student applications</CardDescription>
               </div>
-              <div className="flex gap-2">
-                <div className="relative">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="relative w-full sm:w-auto">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search students..."
-                    className="pl-8 w-[250px]"
+                    className="pl-8 w-full sm:w-[250px]"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
                 <select
-                  className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="h-10 w-full sm:w-auto rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
