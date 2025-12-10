@@ -9,6 +9,8 @@ import { LayoutDashboard, FileText, User, CreditCard, LogOut, Shield } from "luc
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
 
+import Image from "next/image"
+
 export default function DashboardLayout({
   children,
 }: {
@@ -44,7 +46,7 @@ export default function DashboardLayout({
     router.refresh()
   }
 
-  const sidebarItems = [
+  let sidebarItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "My Application", href: "/dashboard/application", icon: FileText },
     { name: "Profile", href: "/dashboard/profile", icon: User },
@@ -52,7 +54,11 @@ export default function DashboardLayout({
   ]
 
   if (isAdmin) {
-    sidebarItems.unshift({ name: "Admin Dashboard", href: "/admin", icon: Shield })
+    // If admin, replace all user items with admin-specific items
+    sidebarItems = [
+      { name: "Overview", href: "/admin", icon: Shield },
+      // Add other admin links here in future (e.g. Users, Settings)
+    ]
   }
 
   return (
@@ -60,8 +66,16 @@ export default function DashboardLayout({
       {/* Sidebar */}
       <aside className="hidden w-64 border-r bg-background md:block fixed inset-y-0 left-0">
         <div className="flex h-16 items-center border-b px-6">
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-             <span className="text-brand-red">CSA</span> Portal
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative h-8 w-8">
+              <Image 
+                src="/logo.png" 
+                alt="CSA Logo" 
+                fill 
+                className="object-contain"
+              />
+            </div>
+            <span className="font-bold text-lg">CSA Portal</span>
           </Link>
         </div>
         <div className="flex flex-col gap-2 p-4">

@@ -33,8 +33,23 @@ export default function LoginPage() {
         return
       }
 
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      let redirectUrl = "/dashboard"
+      if (user) {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+        
+        if (profile?.role === 'admin') {
+          redirectUrl = "/admin"
+        }
+      }
+
       toast.success("Logged in successfully!")
-      router.push("/dashboard")
+      router.push(redirectUrl)
       router.refresh()
     } catch (error) {
       console.error("Login Error:", error)

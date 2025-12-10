@@ -21,6 +21,9 @@ create policy "Users can view their own profile" on public.users
 create policy "Users can update their own profile" on public.users
   for update using (auth.uid() = id);
 
+create policy "Admins can view all profiles" on public.users
+  for select using (exists (select 1 from public.users where id = auth.uid() and role = 'admin'));
+
 -- Create Programs table
 create table public.programs (
   id uuid default uuid_generate_v4() primary key,

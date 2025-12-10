@@ -149,7 +149,7 @@ export function AdminView({ applications: initialApps, totalApps, pendingApps, a
                 {filteredApps.map((app) => (
                   <TableRow key={app.id}>
                     <TableCell>
-                      <div className="font-medium">{app.users?.name || "Unknown"}</div>
+                      <div className="font-medium">{app.users?.name || app.users?.email || "Unknown"}</div>
                       <div className="text-xs text-muted-foreground">{app.users?.email}</div>
                     </TableCell>
                     <TableCell className="max-w-[200px] truncate" title={app.programs?.title}>
