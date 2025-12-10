@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { FileText, AlertCircle, CheckCircle } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
