@@ -45,7 +45,7 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardTitle>Start Your Application</CardTitle>
             <CardDescription>
-              You haven't submitted an application yet. Apply now to secure your spot.
+              You haven&apos;t submitted an application yet. Apply now to secure your spot.
             </CardDescription>
           </CardHeader>
           <CardContent>

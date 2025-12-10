@@ -1,5 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card"
-
 export default function AboutPage() {
   return (
     <div className="container py-16 space-y-16">
@@ -20,7 +18,7 @@ export default function AboutPage() {
         <div className="space-y-6">
            <h2 className="text-2xl font-bold">Our Vision</h2>
            <p className="text-muted-foreground">
-             To be the world's most trusted agency for education in China, recognized for our integrity, professionalism, and high success rates.
+             To be the world&apos;s most trusted agency for education in China, recognized for our integrity, professionalism, and high success rates.
            </p>
         </div>
       </div>

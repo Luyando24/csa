@@ -15,6 +15,8 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ]
 
+import Image from "next/image"
+
 export function Header() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -24,7 +26,14 @@ export function Header() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-brand-red">CSA</span>
+            <div className="relative h-10 w-10">
+              <Image 
+                src="/logo.png" 
+                alt="CSA Logo" 
+                fill 
+                className="object-contain"
+              />
+            </div>
             <span className="hidden font-bold sm:inline-block">
               Chinese Scholarship Agency
             </span>

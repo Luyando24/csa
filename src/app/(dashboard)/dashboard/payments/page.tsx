@@ -8,9 +8,11 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { createClient } from "@/lib/supabase/client"
 
+import { User } from "@supabase/supabase-js"
+
 export default function PaymentsPage() {
   const [amount, setAmount] = useState(100) // Default application fee
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function PaymentsPage() {
       setUser(user)
     }
     getUser()
-  }, [])
+  }, [supabase.auth])
 
   // This should come from env or user input
   const config = {

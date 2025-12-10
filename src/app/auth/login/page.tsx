@@ -34,7 +34,7 @@ export default function LoginPage() {
       toast.success("Logged in successfully!")
       router.push("/dashboard")
       router.refresh()
-    } catch (error) {
+    } catch {
       toast.error("An unexpected error occurred")
     } finally {
       setLoading(false)
@@ -56,7 +56,7 @@ export default function LoginPage() {
       })
       if (error) throw error
       toast.success("Check your email for the magic link!")
-    } catch (error: any) {
+    } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
       toast.error(error.message)
     } finally {
       setLoading(false)
