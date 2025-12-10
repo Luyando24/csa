@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chinese Scholarship Agency (CSA) Website
+
+This is a modern, full-stack website for the Chinese Scholarship Agency, built with Next.js 14, Supabase, and TailwindCSS.
+
+## Features
+
+- **Public Website**: Home, About, Services, Programs, Contact pages.
+- **Authentication**: User registration and login (Email/Password & Magic Link) via Supabase Auth.
+- **Application System**: Users can apply for programs, upload documents (transcripts, passport), and track status.
+- **Payments**: Integrated Flutterwave for application fee payments.
+- **Admin Dashboard**: Manage applications, view users, and payments.
+- **Design System**: Modern, minimalistic UI with TailwindCSS, using Shadcn UI principles.
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: TailwindCSS
+- **Database**: Supabase (PostgreSQL)
+- **Auth**: Supabase Auth
+- **Forms**: React Hook Form + Zod
+- **Payments**: Flutterwave
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd csa
+npm install
+```
+
+### 2. Setup Supabase
+
+1. Create a new project at [Supabase](https://supabase.com).
+2. Go to the SQL Editor and run the script located at `src/lib/schema.sql`. This will create the necessary tables and policies.
+3. Enable Email Auth in Supabase Authentication settings.
+4. (Optional) Create a storage bucket named `documents` for file uploads.
+
+### 3. Configure Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is optimized for deployment on Vercel.
 
-## Learn More
+1. Push your code to GitHub.
+2. Import the project in Vercel.
+3. Add the Environment Variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`) in Vercel settings.
+4. Deploy.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/app`: App Router pages and layouts.
+  - `(public)`: Public facing pages (Home, About, etc).
+  - `(dashboard)`: Protected dashboard pages (User & Admin).
+  - `auth`: Authentication pages.
+- `src/components`: Reusable UI components.
+  - `ui`: Primitive components (Button, Input, Card, etc).
+  - `layout`: Header, Footer, Sidebar.
+  - `dashboard`: Dashboard specific components.
+- `src/lib`: Utilities and Supabase client.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Seed Data
 
-## Deploy on Vercel
+To add initial programs, run the following SQL in Supabase:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sql
+insert into public.programs (title, school_name, level, duration, tuition_fee, description)
+values 
+('Computer Science', 'Tsinghua University', 'Bachelor', '4 Years', '30,000 RMB/year', 'Top ranked CS program.'),
+('MBBS', 'Fudan University', 'Bachelor', '6 Years', '45,000 RMB/year', 'English taught medical program.'),
+('International Business', 'Peking University', 'Masters', '2 Years', '60,000 RMB/year', 'Prestigious business degree.');
+```

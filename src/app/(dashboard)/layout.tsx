@@ -1,0 +1,76 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { LayoutDashboard, FileText, User, CreditCard, LogOut } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
+import { toast } from "sonner"
+
+const sidebarItems = [
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "My Application", href: "/dashboard/application", icon: FileText },
+  { name: "Profile", href: "/dashboard/profile", icon: User },
+  { name: "Payments", href: "/dashboard/payments", icon: CreditCard },
+]
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname()
+  const router = useRouter()
+  const supabase = createClient()
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    toast.success("Signed out successfully")
+    router.push("/")
+    router.refresh()
+  }
+
+  return (
+    <div className="flex min-h-screen bg-muted/20">
+      {/* Sidebar */}
+      <aside className="hidden w-64 border-r bg-background md:block fixed inset-y-0 left-0">
+        <div className="flex h-16 items-center border-b px-6">
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
+             <span className="text-brand-red">CSA</span> Portal
+          </Link>
+        </div>
+        <div className="flex flex-col gap-2 p-4">
+          {sidebarItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground",
+                pathname === item.href
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground"
+              )}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.name}
+            </Link>
+          ))}
+        </div>
+        <div className="absolute bottom-4 left-4 right-4">
+          <Button variant="outline" className="w-full justify-start gap-3" onClick={handleSignOut}>
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </Button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 md:ml-64">
+        <div className="p-8">
+          {children}
+        </div>
+      </main>
+    </div>
+  )
+}
