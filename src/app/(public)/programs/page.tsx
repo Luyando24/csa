@@ -2,10 +2,25 @@ import { createClient } from "@/lib/supabase/server"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { SearchForm } from "@/components/programs/search-form"
 
-export default async function ProgramsPage() {
+export default async function ProgramsPage({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string
+  }
+}) {
+  const query = searchParams?.query || ""
   const supabase = createClient()
-  const { data: programs } = await supabase.from('programs').select('*')
+  
+  let queryBuilder = supabase.from('programs').select('*')
+  
+  if (query) {
+    queryBuilder = queryBuilder.or(`title.ilike.%${query}%,school_name.ilike.%${query}%`)
+  }
+
+  const { data: programs } = await queryBuilder
 
   return (
     <div className="container py-16 space-y-12">
@@ -14,6 +29,9 @@ export default async function ProgramsPage() {
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Explore our wide range of programs and scholarships.
         </p>
+        <div className="pt-4">
+          <SearchForm />
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

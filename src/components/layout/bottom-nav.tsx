@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, BookOpen, GraduationCap, User, Mail } from "lucide-react"
+import { Home, BookOpen, GraduationCap, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function BottomNav() {
