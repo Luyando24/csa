@@ -1,19 +1,13 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, FileText, User, CreditCard, LogOut } from "lucide-react"
+import { LayoutDashboard, FileText, User, CreditCard, LogOut, Shield } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
-
-const sidebarItems = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "My Application", href: "/dashboard/application", icon: FileText },
-  { name: "Profile", href: "/dashboard/profile", icon: User },
-  { name: "Payments", href: "/dashboard/payments", icon: CreditCard },
-]
 
 export default function DashboardLayout({
   children,
@@ -23,12 +17,42 @@ export default function DashboardLayout({
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    const checkRole = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+        
+        if (profile?.role === 'admin') {
+          setIsAdmin(true)
+        }
+      }
+    }
+    checkRole()
+  }, [supabase])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     toast.success("Signed out successfully")
     router.push("/")
     router.refresh()
+  }
+
+  const sidebarItems = [
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "My Application", href: "/dashboard/application", icon: FileText },
+    { name: "Profile", href: "/dashboard/profile", icon: User },
+    { name: "Payments", href: "/dashboard/payments", icon: CreditCard },
+  ]
+
+  if (isAdmin) {
+    sidebarItems.unshift({ name: "Admin Dashboard", href: "/admin", icon: Shield })
   }
 
   return (
